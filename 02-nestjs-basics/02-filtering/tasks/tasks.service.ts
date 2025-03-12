@@ -40,5 +40,18 @@ export class TasksService {
     status?: TaskStatus,
     page?: number,
     limit?: number,
-  ): Task[] {}
+  ): Task[] {
+    let filteredTasks = this.tasks;
+    const currentPage = page || 1;
+    const currentLimit = limit || 10;
+
+    if (status) {
+      filteredTasks = filteredTasks.filter(task => task.status === status);
+    }
+
+    const startIndex = (currentPage - 1) * currentLimit;
+    const endIndex = startIndex + currentLimit;
+
+    return filteredTasks.slice(startIndex, endIndex);
+  }
 }
